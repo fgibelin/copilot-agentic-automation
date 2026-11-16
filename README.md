@@ -1,14 +1,12 @@
 # Jira to Review-Ready Workshop
 
-## A 120-minute Copilot Automations workshop for Air France - KLM
+## A 120-minute Copilot Automations workshop
 
 **Challenge:** Reduce business-request waiting times. Turn one small, synthetic Jira work item into an independently checked draft pull request, with traceable evidence and an explicit human release decision, using GitHub Copilot Automations and Automation Groups driven entirely from the GitHub Copilot App.
 
 **Recommended format:** 40 people in 10 teams of 4; one isolated private/internal training repository per team; Jira as the source of truth; GitHub Copilot App as the only AI workspace during the timed session. One facilitator plus three floating coaches, one familiar with each path (Feature, Bug, Security).
 
 This workshop concerns **GitHub Copilot App and Copilot Automations**, not Microsoft Copilot Studio.
-
-The structure follows the challenge, readiness gate, progressive labs, recovery kit, bonus and short showcase approach of [Philess/ghcp-gamejam-hackathon](https://github.com/Philess/ghcp-gamejam-hackathon). The scenarios and automation design are original and adapted for delivery-flow improvement.
 
 ### Repository map
 
