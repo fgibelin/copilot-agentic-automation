@@ -178,6 +178,8 @@ These are synthetic scenarios from the organizer's starter kit, not claims about
 
 Each path contains its own 00-85 minute workflow and copy-ready prompts. After that, all teams rejoin for the [shared finish](#shared-finish---skills-gallery-and-release-handover). Prompt IDs match the companion pack; path-specific versions below already include the relevant scenario and authoring contract.
 
+---
+
 # Path 1 - New Feature
 
 **Scenario:** direct-flight filter. **Jira example:** `AFKLAB-101`, Story/Feature. **Route:** `feature`, label `ai:feature`. **Group:** New Feature.
