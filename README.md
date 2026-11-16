@@ -15,7 +15,7 @@ The structure follows the challenge, readiness gate, progressive labs, recovery 
 | File | Audience | Purpose |
 |---|---|---|
 | [`README.md`](README.md) | Organizers and facilitators | Design, prerequisites, integration recipe, agenda, measurement and recovery playbook |
-| [`docs/workshop.md`](docs/workshop.md) | Participants | Step-by-step labs, the three paths (Feature / Bug / Security) and the skills bonus |
+| [`docs/workshop.md`](docs/workshop.md) | Participants | Three independent paths with embedded prompts: New Feature / Bug Fix / Security Fix, plus the skills bonus |
 | [`docs/automation-prompt-pack.md`](docs/automation-prompt-pack.md) | Participants and coaches | Copy-ready prompts P0-P9, runtime instructions for Shared Automations and Automation Groups |
 
 ### How they work today, and where the workshop helps
@@ -81,7 +81,7 @@ Provide constraints, templates and recovery material, not finished automations. 
 3. Give each team write access to its repository and approved access to the shared skills repository. Establish a budget owner and event-wide consumption limits.
 4. Protect the default branch. Require the existing CI and independent human review. Keep merge and production deployment permissions out of the automations.
 5. Supply a small airline-themed starter application with local fixtures, reproducible tests and a documented build/test command. Rehearse setup and targeted checks in the actual cloud runtime; aim for checks that complete in a few minutes.
-6. Seed the three exercises described in the [participant workshop](docs/workshop.md#the-three-exercise-paths). Keep the existing baseline tests green; each task adds the missing behavioral test. Provide a pinned rescue revision, prebuilt evidence pack and known-good group configuration for coaches.
+6. Seed the three exercises described in the [participant workshop](docs/workshop.md#choose-one-of-three-paths). Keep the existing baseline tests green; each task adds the missing behavioral test. Provide a pinned rescue revision, prebuilt evidence pack and known-good group configuration for coaches.
 7. Precreate these GitHub handoff labels for the relevant path: `workshop:feature:ready`, `workshop:feature:verify`, `workshop:bug:ready`, `workshop:bug:verify`, `workshop:security:ready`, `workshop:security:verify`. These are **GitHub** labels, separate from the Jira `ai:*` labels.
 8. Record exact repository, group and automation IDs in the organizer's roster. A display name is not an API identifier.
 
