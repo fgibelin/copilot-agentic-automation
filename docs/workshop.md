@@ -6,7 +6,7 @@ short_title: From Jira to Review-Ready
 description: Turn a Jira work item into an independently checked draft pull request with GitHub Copilot Automations and Automation Groups, entirely from the Copilot App.
 level: intermediate
 authors:
-  - fgibelin
+  - Frederic Gibelin
 contacts:
   - '@fgibelin'
 duration_minutes: 120
@@ -176,7 +176,7 @@ These are synthetic scenarios from the organizer's starter kit, not claims about
 | [Path 2 - Bug Fix](#path-2---bug-fix) | Overnight flight duration | `ai:bug` | Bug Fix |
 | [Path 3 - Security Fix](#path-3---security-fix) | Booking ownership check | `ai:security` | Security Fix |
 
-Each path contains its own 00-85 minute workflow and copy-ready prompts. After that, all teams rejoin for the [shared finish](#shared-finish---skills-gallery-and-release-handover). Prompt IDs match the companion pack; path-specific versions below already include the relevant scenario and authoring contract.
+Each path contains its own 00-85 minute workflow and copy-ready prompts. After that, all teams rejoin for the [shared finish](workshop/gh:fgibelin/copilot-agentic-automation/main/docs/?step=5). Prompt IDs match the companion pack; path-specific versions below already include the relevant scenario and authoring contract.
 
 ---
 
