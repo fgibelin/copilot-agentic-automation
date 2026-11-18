@@ -23,7 +23,8 @@ Your team will take one small, synthetic Jira work item and let Copilot Automati
 
 The goal is not to automate everything. The goal is to **remove waiting between steps without removing accountability**.
 
-You work entirely from the **GitHub Copilot App**. This workshop covers Copilot Automations, not Microsoft Copilot Studio.
+You work entirely from the **GitHub Copilot App**.
+This workshop covers Copilot Automations.
 
 By the end of the workshop, your team should have:
 
