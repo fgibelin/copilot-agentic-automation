@@ -121,7 +121,7 @@ DATA_BOUNDARY: synthetic training data only
 
 Names such as `CUSTOMER_ORG` and `AFKLAB-101` are examples, not real customer resources. Use the actual host, repository, Jira site, work item and returned automation/group IDs. A cloud run must not depend on the authoring conversation.
 
-## Common setup - check capabilities (P0)
+## Common setup - check capabilities
 
 Use this read-only prompt before choosing your path:
 
@@ -208,7 +208,7 @@ Acceptance criteria:
 
 **Queue addressed:** request clarification and handoff from definition to implementation. Business acceptance remains human.
 
-## Feature: read and prepare (00-20, P1)
+## Feature: read and prepare
 
 With the facilitator, draw Jira submission -> triage -> development -> test -> approval -> release. Identify waits caused by missing information, capacity and mandatory policy. Complete common setup P0 first, then paste:
 
@@ -232,7 +232,7 @@ decision. Leave unobserved values unknown; production release is out of scope.
 
 **Checkpoint:** explain the behavior, test and human acceptor. Record unclear requirements; do not guess or route yet.
 
-## Feature: one automation before the group (20-30, P2)
+## Feature: one automation before the group
 
 ```text
 Design a standalone Shared cloud Automation "Request readiness check" in
@@ -270,7 +270,7 @@ Inspect its ownership, tools, repository and paused state. Explicitly approve on
 
 **Checkpoint:** one useful report; Shared means repository ownership, not a group or trigger.
 
-## Feature: design, create and activate (30-45, P3 + P4-F)
+## Feature: design, create and activate
 
 Paste this self-contained authoring prompt. Inspect the proposal before allowing creation:
 
@@ -406,7 +406,7 @@ Do not launch, apply Jira labels or change bridge credentials.
 
 **Checkpoint:** one group, three matching members, exact bridge target recorded, no accidental schedules. At minute 45 use the coach's paused rescue group if needed; inspect it and record that it was inherited.
 
-## Feature: label once and observe (45-70, P5)
+## Feature: label once and observe
 
 ```text
 In <JIRA_SITE>, read <JIRA_ITEM> and current labels. Confirm the team and approved
@@ -425,7 +425,7 @@ Record separately: Jira change/bridge decision; API acceptance/task ID and actua
 
 **Checkpoint:** actual evidence links, not success inferred from the previous stage.
 
-## Feature: acceptance and workflow safety (70-85, P6)
+## Feature: acceptance and workflow safety
 
 ```text
 Read-only review <PR_URL> against <JIRA_ITEM>, accepted brief, implementation
@@ -470,7 +470,7 @@ Acceptance criteria:
 
 **Queue addressed:** back-and-forth reproduction and waiting to receive a testable fix.
 
-## Bug: read and reproduce (00-20, P1)
+## Bug: read and reproduce
 
 With the facilitator, draw Jira submission -> triage -> development -> test -> approval -> release. Identify waits caused by missing information, capacity and mandatory policy. Complete common setup P0 first, then paste:
 
@@ -493,7 +493,7 @@ decision. Leave unobserved values unknown; production release is out of scope.
 
 **Checkpoint:** explain reproduction, expected result, regression test and human acceptor. No route label yet; executable reproduction belongs in the approved run.
 
-## Bug: one automation before the group (20-30, P2)
+## Bug: one automation before the group
 
 ```text
 Design a standalone Shared cloud Automation "Request readiness check" in
@@ -531,7 +531,7 @@ Inspect its ownership, tools, repository and paused state. Explicitly approve on
 
 **Checkpoint:** one useful report; Shared means repository ownership, not a group or trigger.
 
-## Bug: design, create and activate (30-45, P3 + P4-B)
+## Bug: design, create and activate
 
 Paste this self-contained authoring prompt. Inspect the proposal before allowing creation:
 
@@ -670,7 +670,7 @@ Do not launch, apply Jira labels or change bridge credentials.
 
 **Checkpoint:** one group, three matching members, exact bridge target recorded, no accidental schedules. At minute 45 use the coach's paused rescue group if needed; inspect it and record that it was inherited.
 
-## Bug: label once and observe (45-70, P5)
+## Bug: label once and observe
 
 ```text
 In <JIRA_SITE>, read <JIRA_ITEM> and current labels. Confirm the team and approved
@@ -689,7 +689,7 @@ Record separately: Jira change/bridge decision; API acceptance/task ID and actua
 
 **Checkpoint:** actual evidence links, including failing-before/passing-after results, not success inferred from the previous stage.
 
-## Bug: acceptance and workflow safety (70-85, P6)
+## Bug: acceptance and workflow safety
 
 ```text
 Read-only review <PR_URL> against <JIRA_ITEM>, accepted brief, implementation
@@ -740,7 +740,7 @@ Acceptance criteria:
 
 **Real-world extension:** secret exposure requires incident handling and credential rotation, not merely deleting a string from code. This lab intentionally does not use real secret exposure as an exercise.
 
-## Security: read and bound the finding (00-20, P1)
+## Security: read and bound the finding
 
 With the facilitator, draw Jira submission -> triage -> development -> test -> approval -> release. Identify waits caused by missing information, capacity and mandatory policy. Complete common setup P0 first, then paste:
 
@@ -764,7 +764,7 @@ decision. Leave unobserved values unknown; production release is out of scope.
 
 **Checkpoint:** explain authorized scope, denied/legitimate tests and human acceptor. No route label yet.
 
-## Security: one automation before the group (20-30, P2)
+## Security: one automation before the group
 
 ```text
 Design a standalone Shared cloud Automation "Request readiness check" in
@@ -803,7 +803,7 @@ Inspect its ownership, tools, repository and paused state. Explicitly approve on
 
 **Checkpoint:** one useful report; Shared means repository ownership, not a group or trigger.
 
-## Security: design, create and activate (30-45, P3 + P4-S)
+## Security: design, create and activate
 
 Paste this self-contained authoring prompt. Inspect the proposal before allowing creation:
 
@@ -945,7 +945,7 @@ Do not launch, apply Jira labels or change bridge credentials.
 
 **Checkpoint:** one group, three matching members, exact bridge target recorded, no accidental schedules. At minute 45 use the coach's paused rescue group if needed; inspect it and record that it was inherited.
 
-## Security: label once and observe (45-70, P5)
+## Security: label once and observe
 
 ```text
 In <JIRA_SITE>, read <JIRA_ITEM> and current labels. Confirm the team and approved
@@ -964,7 +964,7 @@ Record separately: Jira change/bridge decision; API acceptance/task ID and actua
 
 **Checkpoint:** actual evidence links for denied and legitimate behavior, not a scanner-only claim or success inferred from the previous stage.
 
-## Security: acceptance and workflow safety (70-85, P6)
+## Security: acceptance and workflow safety
 
 ```text
 Read-only review <PR_URL> against <JIRA_ITEM>, accepted brief, implementation
@@ -989,13 +989,13 @@ Authorize at most one bounded repair through the App. Refresh implementation evi
 
 # Shared finish - skills, gallery and release handover
 
-## Organizational skills bonus (85-95)
+## Organizational skills bonus
 
 The facilitator uses a prepared **Skills-assisted Delivery** group, or an advanced team uses the approved skill-enabled version of its own path. See [the bonus below](#bonus-use-the-organizations-skills-repository), including copy-ready P7 and P8.
 
 Show one concrete skill contribution: better acceptance criteria, a boundary-case test, an authorization invariant, or a complete release evidence packet. A skill name in a prompt without evidence of loading and use does not count.
 
-## Share all three paths (95-107)
+## Share all three paths
 
 Run two four-minute exchanges plus four minutes of facilitated comparison. A Feature team pairs with Bug, then Security representatives rotate so every table sees both other paths.
 
@@ -1009,7 +1009,7 @@ Each demonstration uses the same compact format:
 
 Do not spend the gallery making slides.
 
-## Release handover and close (107-120, P9)
+## Release handover and close
 
 The human reviewer chooses **ready for authorized integration**, **needs changes** or **blocked**. Paste:
 
@@ -1131,7 +1131,7 @@ Assume the customer has `CUSTOMER_ORG/engineering-skills` in the same organizati
 
 Same-organization membership does **not** automatically give a cloud run access to another private repository or load its skills. Before the day, a maintainer reviews the skills and installs them from a **pinned commit** into each training repository's `.github/skills/`, recording the source repository, path, commit and content hash.
 
-## Prepare organizational skills (P7, before the event)
+## Prepare organizational skills
 
 Use an approved App coding session for a training repository. This is **not** permission to edit the central skills repository.
 
@@ -1167,7 +1167,7 @@ A skills repository is not automatically a plugin marketplace. If the customer a
 
 The group follows the same chain as your path: API entry -> ready issue label -> verify PR label. Use **P7** to prepare the skills and **P8** to create the group, paused and in the designated demo repository only. It must not consume the same labels as an already-active group.
 
-### Create the skills-enabled example (P8)
+### Create the skills-enabled example
 
 For the timed bonus, use an already-reviewed example and spend the ten minutes inspecting actual skill use, not creating another three automations from scratch. For preparation, include your chosen path's complete authoring prompt with this prompt:
 
