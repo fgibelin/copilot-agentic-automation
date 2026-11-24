@@ -34,7 +34,7 @@ This workshop concerns **GitHub Copilot App and Copilot Automations**, not Micro
 - **Before the event**, administrators prepare Jira rules, credentials, repository policies and the integration bridge. Some administrative setup requires Jira/GitHub administration surfaces; it is not established that ordinary MCP issue tools can administer these settings.
 - A Jira label change is **not a native Copilot Automation trigger in the live catalog inspected on 16 November 2026**. A preconfigured Jira rule and authenticated integration bridge invoke the relevant automation through the supported API.
 - A group is not an executable pipeline by itself. The bridge starts its **entry automation**; explicitly configured events start the later members.
-- The reference Feature members are enabled even though their group description says paused. The workshop creates the matching members paused for review, then enables them after the bridge is bound. Copying their settings does not prove that the bridge or event handoffs have run.
+- The Feature members are created paused for review, then enabled after the bridge is bound, even though the group description says paused. Configuring them does not prove that the bridge or event handoffs have run.
 - A draft PR, green checks or an accepted API call is not a production release. The workshop ends at a human-reviewed release handover; a real production release is out of scope.
 - No customer repository, Jira site, skill repository or bridge has been tested by this material. The example repositories used while planning are **not workshop targets**. No automations, Jira items or repository changes were created while preparing this pack.
 
@@ -94,11 +94,10 @@ Do not silently relax a repository's enforced write-scope or actor restrictions 
 |---|---|---|
 | Jira search/read/edit/comment | Interactive App | Read one synthetic item; add and remove a harmless test label without losing existing labels. |
 | GitHub automation/group management | Interactive App | List available tools/triggers and show access to create Shared Automations/groups in a training repository. |
-| Reference Feature configuration | Feature teams' Interactive App | Read the [reference group](https://github.com/octofred-airlines/web/agents/automations/groups/4922c35e-e50c-5600-bb59-c010ebeba975) and all three full member configurations and prompts through GitHub Automation tools. Access to the team's repository alone does not establish this. |
 | Jira label dispatch | Jira rule + bridge | Label change launches the exact entry automation and returns a traceable request/task ID. |
 | Bridge route binding and status | Coach's App through an approved administration MCP | Bind a new group entry ID within the team's allowlisted repository and read dispatch status; no secret exposure. |
 | GitHub code/issue/PR operations | Cloud group members | Actual smoke run demonstrates each stage's narrowly selected tools. |
-| Shared artifact storage | Bug/Security and optional skills-demo members | Producer writes a test record and a consumer in the same group/ownership reads it. The reference Feature members do not use artifacts. |
+| Shared artifact storage | Bug/Security and optional skills-demo members | Producer writes a test record and a consumer in the same group/ownership reads it. Feature members do not use artifacts. |
 | Optional Jira writeback | Cloud verifier or approved bridge | Authenticated comment on a training item from that execution context, not merely from the App. |
 | Organizational skills | Cloud execution repository | Required skill and resources are present at the pinned revision and actually loaded in a cloud smoke run. |
 
@@ -224,7 +223,7 @@ flowchart LR
     H --> R["Release handover"]
 ```
 
-The three rows are three separate groups: **New Feature**, **Bug Fix**, **Security Fix**. All members in a group are Shared, with repository ownership, which makes group-scoped artifact storage available. The reference Feature members do not use it; Bug and Security do. Groups do not automatically share artifacts with one another.
+The three rows are three separate groups: **New Feature**, **Bug Fix**, **Security Fix**. All members in a group are Shared, with repository ownership, which makes group-scoped artifact storage available. Feature members do not use it; Bug and Security do. Groups do not automatically share artifacts with one another.
 
 | Jira label newly added | Target group | Entry automation |
 |---|---|---|
@@ -250,7 +249,7 @@ Sources: [Copilot automations](https://docs.github.com/en/copilot/concepts/agent
 
 This is prerequisite implementation work, **not an extra participant lab**. The design specifies a small bridge because it centralizes credentials, routing and duplicate handling. It is not a built-in Copilot feature and must be implemented or supplied by the customer's approved integration platform.
 
-**Keep group creation app-only:** the bridge must expose a narrow, authenticated administration capability to the coach's App for binding a newly created entry ID to an existing team route, plus reading status. This is a prerequisite custom integration capability, not a claimed built-in MCP tool. Discover its real tool/schema and rehearse it before the day. Only coaches may bind routes; the capability must verify repository, group membership and entry ID against the allowlist. If that capability is unavailable, precreate paused groups and bind their IDs before the event; participants inspect and edit those exact groups instead of creating replacement groups during the clock.
+**Keep group creation app-only:** the bridge must expose a narrow, authenticated administration capability to the coach's App for binding a newly created entry ID to an existing team route, plus reading status. This is a prerequisite custom integration capability, not a claimed built-in MCP tool. Discover its real tool/schema and rehearse it before the day. Only coaches may bind routes; the capability must verify repository, group membership and entry ID against the allowlist. If that capability is unavailable, Feature teams report a blocker because they create their group during the workshop. Bug and Security teams may use precreated paused groups with prebound IDs.
 
 ### Jira rule
 
@@ -392,7 +391,7 @@ Budget planning starts with roughly **40 base cloud runs**: ten standalone readi
 | Problem | App-first response | What not to claim |
 |---|---|---|
 | Setup still broken at minute 20 | Pair with a prepared driver station; coach handles setup separately | An untested laptop is ready |
-| Group not ready at minute 45 | Use the exact precreated paused rescue group after review/approval; update the bridge mapping | The team authored the rescue configuration |
+| Group not ready at minute 45 | Feature: record the blocker. Bug/Security: use the exact precreated paused rescue group after review/approval and update the bridge mapping | The team authored the rescue configuration |
 | Jira event never arrives | Inspect the App-readable audit; after five minutes use an approved manual run with the same sanitized context | Manual dispatch proves automatic routing |
 | Run accepted but no task visible yet | Inspect status/bridge correlation; reconcile before retry | HTTP 202 means the work completed |
 | Agent stuck or checks exceed the timebox | Reduce to the original smallest task, use the rescue baseline/evidence pack | Inherited results are freshly executed results |
@@ -408,7 +407,7 @@ The main learning objective is **correct, traceable flow with honest boundaries*
 
 Research snapshot: **16 November 2026**. Features and API contracts can change; rerun the readiness gate on the customer's actual tenant and App build.
 
-The Feature reference group and its three saved configurations were read on **24 November 2026**. The bridge, customer policies and an end-to-end Feature run have not been verified by that read.
+The bridge, customer policies and an end-to-end Feature run have not been verified by this material.
 
 - The live automation catalog inspected exposed issue/PR label triggers, schedules, security alerts and automation-completion events, but no Jira-native trigger.
 - Group availability and management permissions were checked read-only on one illustrative repository. That establishes neither customer entitlement nor Jira/cloud connectivity.
