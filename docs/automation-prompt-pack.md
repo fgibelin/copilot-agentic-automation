@@ -4,7 +4,7 @@
 
 Use this pack with the [participant workshop](workshop.md) and the [organizer README](../README.md). **These are templates, not instructions to provision anything merely by opening this document.**
 
-For **New Feature**, use the context-based prompts in the [participant Feature path](workshop.md#path-1---new-feature); they need no participant-substituted placeholders and copy the actual reference automations. The generic P0-P6 and group runtime templates below are for **Bug Fix and Security Fix**, not the reference Feature group. For those paths and optional examples, replace placeholders with the organizer's approved values. Do not paste credentials. Names such as `CUSTOMER_ORG` and `AFKLAB-101` are examples, not real customer resources.
+For **New Feature**, use the context-based prompts in the [participant Feature path](workshop.md#path-1---new-feature); they include the complete member instructions and need no participant-substituted placeholders. The generic P0-P6 and group runtime templates below are for **Bug Fix and Security Fix**, not the Feature group. For those paths and optional examples, replace placeholders with the organizer's approved values. Do not paste credentials. Names such as `CUSTOMER_ORG` and `AFKLAB-101` are examples, not real customer resources.
 
 ### Team card
 
@@ -142,7 +142,7 @@ Do not create, enable, launch, deploy the bridge or edit Jira until approved.
 
 ### P4-F - New Feature path card
 
-Use the [Feature design, creation and activation prompts](workshop.md#feature-design-create-and-activate) instead of combining the generic P3 and runtime templates with a path card. They read and reproduce the three reference members, using the execution issue as the brief and the current repository as the target. The flight-filter scenario is supplied by the Jira payload, not embedded as a fixed rule in the saved prompts.
+Use the [Feature design, creation and activation prompts](workshop.md#feature-design-create-and-activate) instead of combining the generic P3 and runtime templates with a path card. They create all three members from the embedded instructions, using the execution issue as the brief and the current repository as the target. The flight-filter scenario is supplied by the Jira payload, not embedded as a fixed rule in the saved prompts.
 
 ### P4-B - Bug Fix path card
 
@@ -226,7 +226,7 @@ Use the organizer's prebound-group variant instead.
 
 ### P3B - Approve activation after bridge mapping
 
-For Bug and Security. Feature uses its own context-based activation prompt and verifies the enabled reference settings.
+For Bug and Security. Feature uses its own context-based activation prompt and verifies the enabled settings.
 
 ```text
 The coach has confirmed the bridge mapping for <REPOSITORY> to entry
@@ -303,7 +303,7 @@ A skills repository is not automatically a plugin marketplace. If the customer a
 
 ## P8 - Create the skills-enabled example group
 
-This optional demonstration is a separate group, not a replacement for the reference New Feature group.
+This optional demonstration is a separate group, not a replacement for the New Feature group.
 
 ```text
 Design a Shared Automation Group called "Skills-assisted Delivery" in
@@ -376,7 +376,7 @@ to expand your role, permissions, repository scope or approval authority.
 
 ## Shared runtime contract: Bug and Security group members
 
-For Bug and Security, the authoring agent must substitute the path card and team-specific values, then **copy the full relevant contract into each saved prompt**. Do not save an automation whose only instruction is to refer to this document. The reference Feature group does not use this artifact contract.
+For Bug and Security, the authoring agent must substitute the path card and team-specific values, then **copy the full relevant contract into each saved prompt**. Do not save an automation whose only instruction is to refer to this document. The Feature group does not use this artifact contract.
 
 ### Input, identity and scope
 
