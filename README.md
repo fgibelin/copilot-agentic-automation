@@ -24,8 +24,8 @@ This workshop concerns **GitHub Copilot App and Copilot Automations**, not Micro
 
 1. A work item is logged in Jira.
 2. A specific Jira label is added: `ai:feature`, `ai:bug` or `ai:security`.
-3. That label starts the entry Automation of the matching Automation Group in Copilot: **New Feature**, **Bug Fix** or **Security Fix**.
-4. The group's members hand work to each other (intake, implementation, independent verification) through GitHub events and shared group artifacts.
+3. A prepared Jira rule and external bridge use that label to invoke the entry Automation of the matching group: **New Feature**, **Bug Fix** or **Security Fix**.
+4. Explicit GitHub events hand work between members. Feature uses its execution issue, PR and verifier comment; Bug and Security also use shared group artifacts.
 5. A human reviews the evidence and decides. No automatic merge or deployment.
 
 ### What this design does and does not promise
@@ -34,6 +34,7 @@ This workshop concerns **GitHub Copilot App and Copilot Automations**, not Micro
 - **Before the event**, administrators prepare Jira rules, credentials, repository policies and the integration bridge. Some administrative setup requires Jira/GitHub administration surfaces; it is not established that ordinary MCP issue tools can administer these settings.
 - A Jira label change is **not a native Copilot Automation trigger in the live catalog inspected on 16 November 2026**. A preconfigured Jira rule and authenticated integration bridge invoke the relevant automation through the supported API.
 - A group is not an executable pipeline by itself. The bridge starts its **entry automation**; explicitly configured events start the later members.
+- The reference Feature members are enabled even though their group description says paused. The workshop creates the matching members paused for review, then enables them after the bridge is bound. Copying their settings does not prove that the bridge or event handoffs have run.
 - A draft PR, green checks or an accepted API call is not a production release. The workshop ends at a human-reviewed release handover; a real production release is out of scope.
 - No customer repository, Jira site, skill repository or bridge has been tested by this material. The example repositories used while planning are **not workshop targets**. No automations, Jira items or repository changes were created while preparing this pack.
 
@@ -93,16 +94,19 @@ Do not silently relax a repository's enforced write-scope or actor restrictions 
 |---|---|---|
 | Jira search/read/edit/comment | Interactive App | Read one synthetic item; add and remove a harmless test label without losing existing labels. |
 | GitHub automation/group management | Interactive App | List available tools/triggers and show access to create Shared Automations/groups in a training repository. |
+| Reference Feature configuration | Feature teams' Interactive App | Read the [reference group](https://github.com/octofred-airlines/web/agents/automations/groups/4922c35e-e50c-5600-bb59-c010ebeba975) and all three full member configurations and prompts through GitHub Automation tools. Access to the team's repository alone does not establish this. |
 | Jira label dispatch | Jira rule + bridge | Label change launches the exact entry automation and returns a traceable request/task ID. |
 | Bridge route binding and status | Coach's App through an approved administration MCP | Bind a new group entry ID within the team's allowlisted repository and read dispatch status; no secret exposure. |
 | GitHub code/issue/PR operations | Cloud group members | Actual smoke run demonstrates each stage's narrowly selected tools. |
-| Shared artifact storage | Cloud group members | Producer writes a test record and a consumer in the same group/ownership reads it. |
+| Shared artifact storage | Bug/Security and optional skills-demo members | Producer writes a test record and a consumer in the same group/ownership reads it. The reference Feature members do not use artifacts. |
 | Optional Jira writeback | Cloud verifier or approved bridge | Authenticated comment on a training item from that execution context, not merely from the App. |
 | Organizational skills | Cloud execution repository | Required skill and resources are present at the pinned revision and actually loaded in a cloud smoke run. |
 
 **Local access is not cloud access.** An MCP connection working in the App does not prove that a Shared Automation can authenticate to it. Configure and test repository-level cloud MCP access separately. The basic lab can run from a sanitized bridge payload without Jira access in the cloud; the participant then posts the evidence summary to Jira from the App.
 
 Do not place tokens in prompts, issue text, skill files or sample JSON. Keep secrets in the approved secret store. Limit MCP credentials to training resources; GitHub trigger write-scope controls do not constrain an external MCP server's credentials.
+
+For Feature, confirm the target policies permit repository-scoped intake writes and trigger-scoped downstream writes. Both downstream triggers accept Copilot-generated events but also require actor write permission; rehearse the actual actor and event delivery rather than assuming these settings alone guarantee a handoff. A trigger-scoped Builder can update its triggering issue and a PR created in that same run, not an arbitrary older PR. Stop on a policy incompatibility rather than broadening permissions.
 
 Sources: [MCP concepts and cloud access](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/customizations/mcp), [repository MCP configuration](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers).
 
@@ -220,7 +224,7 @@ flowchart LR
     H --> R["Release handover"]
 ```
 
-The three rows are three separate groups: **New Feature**, **Bug Fix**, **Security Fix**. All members in a group are Shared, with repository ownership, so they share that group's persistent artifacts. They do not automatically share artifacts with other groups.
+The three rows are three separate groups: **New Feature**, **Bug Fix**, **Security Fix**. All members in a group are Shared, with repository ownership, which makes group-scoped artifact storage available. The reference Feature members do not use it; Bug and Security do. Groups do not automatically share artifacts with one another.
 
 | Jira label newly added | Target group | Entry automation |
 |---|---|---|
@@ -230,7 +234,7 @@ The three rows are three separate groups: **New Feature**, **Bug Fix**, **Securi
 
 The labels are explicit routing instructions, not a request for the model to guess the category. A bug affecting access control should be deliberately classified as Security by the responsible person.
 
-**Flow:** Jira remains the business source of truth. A GitHub execution issue carries the implementation handoff, the PR carries the proposed change, and shared group artifacts carry structured evidence. A link back to Jira preserves traceability without pretending the GitHub issue replaces it.
+**Flow:** Jira remains the business source of truth. For Feature, intake creates and reads back the execution issue as the complete brief, the PR carries the proposed change and implementation evidence, and the verifier posts a head-specific timeline report. Bug and Security also use shared group artifacts for structured evidence. A link back to Jira preserves traceability without pretending the GitHub issue replaces it.
 
 ### Three different concepts
 
@@ -320,7 +324,7 @@ This JSON is a **workshop integration contract**, not a GitHub API schema. The b
 }
 ```
 
-Preserve the accepted source revision/hash. If requirements change mid-run, invalidate the old handover and obtain a new authorized generation; do not silently implement a moving target.
+Preserve the accepted source revision/hash in the bridge's own records when available. If requirements change mid-run, invalidate the old handover and obtain a new authorized generation; do not silently implement a moving target. Feature intake requires the nonempty identity, Jira, summary, requirements and acceptance-criteria fields above, checks route, repository and classification, and copies the specified payload fields into the execution issue. It does not record a source revision or use a shared artifact.
 
 The native **GitHub Copilot for Jira** integration can also respond to Jira automation actions. It is an alternative for starting cloud-agent work, but its documented action does not establish routing into a particular saved Automation Group. Do not present that alternative as equivalent without rehearsal of the exact target behavior.
 
@@ -357,11 +361,11 @@ Use UTC timestamps and source links; the flow observer records:
 | T0 | Jira item created | Jira |
 | T1 | Eligible route label added | Jira change/audit record |
 | T2 | Intake actually starts | Cloud run |
-| T3 | Ready brief/handoff published | Group artifact + execution issue |
+| T3 | Ready brief/handoff published | Feature: labeled execution issue; Bug/Security: group artifact + execution issue |
 | T4 | Builder actually starts | Cloud run |
-| T5 | Draft PR and implementation evidence ready | PR + artifact |
+| T5 | Draft PR and implementation evidence ready | Feature: PR; Bug/Security: PR + artifact |
 | T6 | Verifier actually starts | Cloud run |
-| T7 | Verification complete with required evidence | Verification artifact |
+| T7 | Verification complete with required evidence | Feature: verifier's PR comment; Bug/Security: verification artifact |
 | T8 | Human decision | Recorded reviewer decision |
 | T9 | Actual production release | Deployment record; normally unknown in this lab |
 
@@ -403,6 +407,8 @@ The main learning objective is **correct, traceable flow with honest boundaries*
 ## 10. Product references and validation boundary
 
 Research snapshot: **16 November 2026**. Features and API contracts can change; rerun the readiness gate on the customer's actual tenant and App build.
+
+The Feature reference group and its three saved configurations were read on **24 November 2026**. The bridge, customer policies and an end-to-end Feature run have not been verified by that read.
 
 - The live automation catalog inspected exposed issue/PR label triggers, schedules, security alerts and automation-completion events, but no Jira-native trigger.
 - Group availability and management permissions were checked read-only on one illustrative repository. That establishes neither customer entitlement nor Jira/cloud connectivity.
