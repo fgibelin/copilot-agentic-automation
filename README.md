@@ -25,7 +25,7 @@ This workshop concerns **GitHub Copilot App and Copilot Automations**, not Micro
 1. A work item is logged in Jira.
 2. A specific Jira label is added: `ai:feature`, `ai:bug` or `ai:security`.
 3. A prepared Jira rule and external bridge use that label to invoke the entry Automation of the matching group: **New Feature**, **Bug Fix** or **Security Fix**.
-4. Explicit GitHub events hand work between members. Feature uses its execution issue, PR and verifier comment; Bug and Security also use shared group artifacts.
+4. Explicit GitHub events hand work between members. Feature uses its execution issue, PR and verifier comment; Bug and Security use the same durable handoff.
 5. A human reviews the evidence and decides. No automatic merge or deployment.
 
 ### What this design does and does not promise
@@ -97,7 +97,7 @@ Do not silently relax a repository's enforced write-scope or actor restrictions 
 | Jira label dispatch | Jira rule + bridge | Label change launches the exact entry automation and returns a traceable request/task ID. |
 | Bridge route binding and status | Coach's App through an approved administration MCP | Bind a new group entry ID within the team's allowlisted repository and read dispatch status; no secret exposure. |
 | GitHub code/issue/PR operations | Cloud group members | Actual smoke run demonstrates each stage's narrowly selected tools. |
-| Shared artifact storage | Bug/Security and optional skills-demo members | Producer writes a test record and a consumer in the same group/ownership reads it. Feature members do not use artifacts. |
+| Shared artifact storage | Optional skills-demo members only | Producer writes a test record and a consumer in the same group/ownership reads it. Feature members do not use artifacts; neither do the primary Bug/Security paths. |
 | Optional Jira writeback | Cloud verifier or approved bridge | Authenticated comment on a training item from that execution context, not merely from the App. |
 | Organizational skills | Cloud execution repository | Required skill and resources are present at the pinned revision and actually loaded in a cloud smoke run. |
 
@@ -105,7 +105,7 @@ Do not silently relax a repository's enforced write-scope or actor restrictions 
 
 Do not place tokens in prompts, issue text, skill files or sample JSON. Keep secrets in the approved secret store. Limit MCP credentials to training resources; GitHub trigger write-scope controls do not constrain an external MCP server's credentials.
 
-For Feature, confirm the target policies permit repository-scoped intake writes and trigger-scoped downstream writes. Both downstream triggers accept Copilot-generated events but also require actor write permission; rehearse the actual actor and event delivery rather than assuming these settings alone guarantee a handoff. A trigger-scoped Builder can update its triggering issue and a PR created in that same run, not an arbitrary older PR. Stop on a policy incompatibility rather than broadening permissions.
+For each path, confirm the target policies permit repository-scoped intake writes and trigger-scoped downstream writes. Both downstream triggers accept Copilot-generated events but also require actor write permission; rehearse the actual actor and event delivery rather than assuming these settings alone guarantee a handoff. A trigger-scoped builder or fixer can update its triggering issue and a PR created in that same run, not an arbitrary older PR. Stop on a policy incompatibility rather than broadening permissions.
 
 Sources: [MCP concepts and cloud access](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/customizations/mcp), [repository MCP configuration](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers).
 
@@ -223,7 +223,7 @@ flowchart LR
     H --> R["Release handover"]
 ```
 
-The three rows are three separate groups: **New Feature**, **Bug Fix**, **Security Fix**. All members in a group are Shared, with repository ownership, which makes group-scoped artifact storage available. Feature members do not use it; Bug and Security do. Groups do not automatically share artifacts with one another.
+The three rows are three separate groups: **New Feature**, **Bug Fix**, **Security Fix**. All members in a group are Shared, with repository ownership, which makes group-scoped artifact storage available. Feature members do not use it; Bug and Security likewise use execution issues, PRs and verifier comments instead. Groups do not automatically share artifacts with one another.
 
 | Jira label newly added | Target group | Entry automation |
 |---|---|---|
@@ -233,7 +233,7 @@ The three rows are three separate groups: **New Feature**, **Bug Fix**, **Securi
 
 The labels are explicit routing instructions, not a request for the model to guess the category. A bug affecting access control should be deliberately classified as Security by the responsible person.
 
-**Flow:** Jira remains the business source of truth. For Feature, intake creates and reads back the execution issue as the complete brief, the PR carries the proposed change and implementation evidence, and the verifier posts a head-specific timeline report. Bug and Security also use shared group artifacts for structured evidence. A link back to Jira preserves traceability without pretending the GitHub issue replaces it.
+**Flow:** Jira remains the business source of truth. For Feature, intake creates and reads back the execution issue as the complete brief, the PR carries the proposed change and implementation evidence, and the verifier posts a head-specific timeline report. Bug and Security use the same durable handoff, with their regression/authorization evidence and observed baseline captured in the issue and PR. A link back to Jira preserves traceability without pretending the GitHub issue replaces it.
 
 ### Three different concepts
 
@@ -249,7 +249,7 @@ Sources: [Copilot automations](https://docs.github.com/en/copilot/concepts/agent
 
 This is prerequisite implementation work, **not an extra participant lab**. The design specifies a small bridge because it centralizes credentials, routing and duplicate handling. It is not a built-in Copilot feature and must be implemented or supplied by the customer's approved integration platform.
 
-**Keep group creation app-only:** the bridge must expose a narrow, authenticated administration capability to the coach's App for binding a newly created entry ID to an existing team route, plus reading status. This is a prerequisite custom integration capability, not a claimed built-in MCP tool. Discover its real tool/schema and rehearse it before the day. Only coaches may bind routes; the capability must verify repository, group membership and entry ID against the allowlist. If that capability is unavailable, Feature teams report a blocker because they create their group during the workshop. Bug and Security teams may use precreated paused groups with prebound IDs.
+**Keep group creation app-only:** the bridge must expose a narrow, authenticated administration capability to the coach's App for binding a newly created entry ID to an existing team route, plus reading status. This is a prerequisite custom integration capability, not a claimed built-in MCP tool. Discover its real tool/schema and rehearse it before the day. Only coaches may bind routes; the capability must verify repository, group membership and entry ID against the allowlist. All teams create their own group during the workshop; if binding is unavailable, record a blocker rather than adopting a precreated group.
 
 ### Jira rule
 
@@ -325,6 +325,8 @@ This JSON is a **workshop integration contract**, not a GitHub API schema. The b
 
 Preserve the accepted source revision/hash in the bridge's own records when available. If requirements change mid-run, invalidate the old handover and obtain a new authorized generation; do not silently implement a moving target. Feature intake requires the nonempty identity, Jira, summary, requirements and acceptance-criteria fields above, checks route, repository and classification, and copies the specified payload fields into the execution issue. It does not record a source revision or use a shared artifact.
 
+Bug and Security use the same normalized fields with route `bug` or `security`; no new `source_revision` payload field is required. Their intake resolves an observed baseline from available repository/run context, or verifies an explicitly documented baseline, and records the full SHA and source in the execution issue. Required before/after evidence must be tied to confirmed baseline/head revisions. If that evidence cannot be established, report blocked or unverified rather than inventing a baseline or requiring participants to supply a value.
+
 The native **GitHub Copilot for Jira** integration can also respond to Jira automation actions. It is an alternative for starting cloud-agent work, but its documented action does not establish routing into a particular saved Automation Group. Do not present that alternative as equivalent without rehearsal of the exact target behavior.
 
 Source: [Copilot cloud agent with Jira](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/copilot-integrations/integrate-cloud-agent-with-jira).
@@ -360,11 +362,11 @@ Use UTC timestamps and source links; the flow observer records:
 | T0 | Jira item created | Jira |
 | T1 | Eligible route label added | Jira change/audit record |
 | T2 | Intake actually starts | Cloud run |
-| T3 | Ready brief/handoff published | Feature: labeled execution issue; Bug/Security: group artifact + execution issue |
+| T3 | Ready brief/handoff published | Feature: labeled execution issue; Bug/Security: labeled execution issue |
 | T4 | Builder actually starts | Cloud run |
-| T5 | Draft PR and implementation evidence ready | Feature: PR; Bug/Security: PR + artifact |
+| T5 | Draft PR and implementation evidence ready | Feature: PR; Bug/Security: PR |
 | T6 | Verifier actually starts | Cloud run |
-| T7 | Verification complete with required evidence | Feature: verifier's PR comment; Bug/Security: verification artifact |
+| T7 | Verification complete with required evidence | Feature: verifier's PR comment; Bug/Security: verifier's PR comment |
 | T8 | Human decision | Recorded reviewer decision |
 | T9 | Actual production release | Deployment record; normally unknown in this lab |
 
@@ -391,8 +393,8 @@ Budget planning starts with roughly **40 base cloud runs**: ten standalone readi
 | Problem | App-first response | What not to claim |
 |---|---|---|
 | Setup still broken at minute 20 | Pair with a prepared driver station; coach handles setup separately | An untested laptop is ready |
-| Group not ready at minute 45 | Feature: record the blocker. Bug/Security: use the exact precreated paused rescue group after review/approval and update the bridge mapping | The team authored the rescue configuration |
-| Jira event never arrives | Inspect the App-readable audit; after five minutes use an approved manual run with the same sanitized context | Manual dispatch proves automatic routing |
+| Group not ready at minute 45 | Record the blocker; do not adopt a precreated group | Configuration or end-to-end routing was verified |
+| Jira event never arrives | Inspect the App-readable audit; after five minutes, reconcile dispatch and pending work before an approved manual run with the same sanitized context | Manual dispatch proves automatic routing |
 | Run accepted but no task visible yet | Inspect status/bridge correlation; reconcile before retry | HTTP 202 means the work completed |
 | Agent stuck or checks exceed the timebox | Reduce to the original smallest task, use the rescue baseline/evidence pack | Inherited results are freshly executed results |
 | Cloud Jira MCP unavailable | Continue from the sanitized entry payload; participant writes back through the App | The cloud has Jira access |
