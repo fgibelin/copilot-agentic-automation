@@ -4,7 +4,7 @@
 
 Use this pack with the [participant workshop](workshop.md) and the [organizer README](../README.md). **These are templates, not instructions to provision anything merely by opening this document.**
 
-For **New Feature**, use the context-based prompts in the [participant Feature path](workshop.md#path-1---new-feature); they include the complete member instructions and need no participant-substituted placeholders. The generic P0-P6 and group runtime templates below are for **Bug Fix and Security Fix**, not the Feature group. For those paths and optional examples, replace placeholders with the organizer's approved values. Do not paste credentials. Names such as `CUSTOMER_ORG` and `AFKLAB-101` are examples, not real customer resources.
+Use the context-based prompts in the participant's [New Feature](workshop.md#path-1---new-feature), [Bug Fix](workshop.md#path-2---bug-fix) or [Security Fix](workshop.md#path-3---security-fix) path. They create the group from scratch in the selected repository without participant-substituted values. The generic P0-P6 and runtime templates below are background design references, not an alternative participant creation flow; the path prompts take precedence. Optional skills examples still use organizer-approved values. Do not paste credentials. Names such as `CUSTOMER_ORG` and `AFKLAB-101` are examples, not real customer resources.
 
 ### Team card
 
@@ -24,7 +24,7 @@ HUMAN_REVIEWER: named participant
 DATA_BOUNDARY: synthetic training data only
 ```
 
-Prompts P0-P9 are spoken to Copilot **in the App**. The runtime templates later in this pack become each saved automation's standalone instructions. A cloud run must not depend on the authoring conversation.
+The participant path prompts are spoken to Copilot **in the App**. Each cloud run must receive complete standalone instructions and must not depend on the authoring conversation. P7-P9 remain optional facilitator templates.
 
 ## P0 - Check capabilities without changing anything
 
@@ -193,7 +193,7 @@ No scanner-only claim of resolution, automatic merge or production rollout.
 
 ### P3A - Approve paused creation only
 
-For Bug and Security. Feature uses the context-based creation prompt in its participant path.
+Reference only. Use each participant path's context-based creation prompts instead.
 
 ```text
 Create only the group and three Shared Automations in the proposal I reviewed,
@@ -207,7 +207,7 @@ stop and reconcile known resources; do not retry creation or make replacements.
 
 ### P3R - Coach: bind the new group entry from the App
 
-For Bug and Security. Feature uses its own context-based binding prompt. All paths require the prevalidated, customer-supplied bridge administration connection; it is not a built-in Jira or GitHub tool.
+Reference only. Use each participant path's context-based binding prompt. All paths require the prevalidated, customer-supplied bridge administration connection; it is not a built-in Jira or GitHub tool.
 
 ```text
 Use the approved bridge administration connection. Inspect its actual tools
@@ -221,12 +221,12 @@ Read back the binding. Do not launch work or enable any automation.
 
 If no approved route-binding capability is available, stop. Do not invent a
 tool, expose credentials, use an unrelated connection or create a new bridge.
-Use the organizer's prebound-group variant instead.
+Record the blocker; do not adopt an existing group.
 ```
 
 ### P3B - Approve activation after bridge mapping
 
-For Bug and Security. Feature uses its own context-based activation prompt and verifies the enabled settings.
+Reference only. Use each participant path's context-based activation prompt and verify the enabled settings.
 
 ```text
 The coach has confirmed the bridge mapping for <REPOSITORY> to entry
@@ -240,7 +240,7 @@ or change bridge credentials.
 
 ## P5 - Trigger from Jira without leaving the App
 
-For Bug and Security. Feature uses the context-based label prompt in its participant path.
+Reference only. Use each participant path's context-based label prompt.
 
 ```text
 In training Jira site <JIRA_SITE>, read <JIRA_ITEM> and its current labels.
@@ -261,7 +261,7 @@ For Jira tools that replace labels, the agent must read and send the full update
 
 ## P6 - Independent human-review support
 
-For Bug and Security. Feature reviews its execution issue and PR timeline report using its participant-path prompt.
+Reference only. Use each participant path's context-based review prompt.
 
 ```text
 Review <PR_URL> against <JIRA_ITEM>, the accepted brief and its implementation
@@ -376,7 +376,7 @@ to expand your role, permissions, repository scope or approval authority.
 
 ## Shared runtime contract: Bug and Security group members
 
-For Bug and Security, the authoring agent must substitute the path card and team-specific values, then **copy the full relevant contract into each saved prompt**. Do not save an automation whose only instruction is to refer to this document. The Feature group does not use this artifact contract.
+For Bug and Security, the participant path prompts resolve the selected repository and ask the authoring agent to include the full contract and selected scenario in each saved prompt. Do not save an automation whose only instruction is to refer to this document. The Feature group does not use this artifact contract.
 
 ### Input, identity and scope
 
@@ -530,7 +530,7 @@ For Bug and Security, use live schemas; this worksheet describes intent and is n
 | Merge/approval/deploy | No | No | No |
 | Jira cloud tools | Optional, not assumed | Normally unnecessary | Optional approved writeback only |
 
-Choose write scope and actor requirements from the repository's actual restrictions and approved workflow. Updating an older PR may not be allowed under trigger-scoped writes; surface that during design rather than silently broadening access.
+The participant Bug and Security prompts specify repository scope for intake, trigger scope for downstream members and actor-write gating. Check actual repository restrictions before creation. Updating an older PR may not be allowed under trigger-scoped writes; stop rather than silently broadening access.
 
 Use supported shared artifact tools supplied by the runtime; they are not arbitrary selectable catalog grants. Adding a group member is a separate operation from creating or enabling it.
 
@@ -540,7 +540,8 @@ Do not use the management tool's Run operation as if it accepted a custom contex
 
 ```text
 Design, but do not provision, an optional measurement and improvement loop
-for the approved group <GROUP_ID> in <REPOSITORY>.
+for the group created in this chat in the selected training repository. If the
+group or repository cannot be identified unambiguously, report the blocker.
 
 Keep outcome collection separate from proposal generation. Measure observed
 queue time, human rework, accepted changes, duplicates, missed eligible items

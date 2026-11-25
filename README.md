@@ -105,7 +105,7 @@ Do not silently relax a repository's enforced write-scope or actor restrictions 
 
 Do not place tokens in prompts, issue text, skill files or sample JSON. Keep secrets in the approved secret store. Limit MCP credentials to training resources; GitHub trigger write-scope controls do not constrain an external MCP server's credentials.
 
-For Feature, confirm the target policies permit repository-scoped intake writes and trigger-scoped downstream writes. Both downstream triggers accept Copilot-generated events but also require actor write permission; rehearse the actual actor and event delivery rather than assuming these settings alone guarantee a handoff. A trigger-scoped Builder can update its triggering issue and a PR created in that same run, not an arbitrary older PR. Stop on a policy incompatibility rather than broadening permissions.
+For each path, confirm the target policies permit repository-scoped intake writes and trigger-scoped downstream writes. Both downstream triggers accept Copilot-generated events but also require actor write permission; rehearse the actual actor and event delivery rather than assuming these settings alone guarantee a handoff. A trigger-scoped builder or fixer can update its triggering issue and a PR created in that same run, not an arbitrary older PR. Stop on a policy incompatibility rather than broadening permissions.
 
 Sources: [MCP concepts and cloud access](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/customizations/mcp), [repository MCP configuration](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers).
 
@@ -249,7 +249,7 @@ Sources: [Copilot automations](https://docs.github.com/en/copilot/concepts/agent
 
 This is prerequisite implementation work, **not an extra participant lab**. The design specifies a small bridge because it centralizes credentials, routing and duplicate handling. It is not a built-in Copilot feature and must be implemented or supplied by the customer's approved integration platform.
 
-**Keep group creation app-only:** the bridge must expose a narrow, authenticated administration capability to the coach's App for binding a newly created entry ID to an existing team route, plus reading status. This is a prerequisite custom integration capability, not a claimed built-in MCP tool. Discover its real tool/schema and rehearse it before the day. Only coaches may bind routes; the capability must verify repository, group membership and entry ID against the allowlist. If that capability is unavailable, Feature teams report a blocker because they create their group during the workshop. Bug and Security teams may use precreated paused groups with prebound IDs.
+**Keep group creation app-only:** the bridge must expose a narrow, authenticated administration capability to the coach's App for binding a newly created entry ID to an existing team route, plus reading status. This is a prerequisite custom integration capability, not a claimed built-in MCP tool. Discover its real tool/schema and rehearse it before the day. Only coaches may bind routes; the capability must verify repository, group membership and entry ID against the allowlist. All teams create their own group during the workshop; if binding is unavailable, record a blocker rather than adopting a precreated group.
 
 ### Jira rule
 
@@ -325,6 +325,8 @@ This JSON is a **workshop integration contract**, not a GitHub API schema. The b
 
 Preserve the accepted source revision/hash in the bridge's own records when available. If requirements change mid-run, invalidate the old handover and obtain a new authorized generation; do not silently implement a moving target. Feature intake requires the nonempty identity, Jira, summary, requirements and acceptance-criteria fields above, checks route, repository and classification, and copies the specified payload fields into the execution issue. It does not record a source revision or use a shared artifact.
 
+For Bug and Security, the proposed bridge contract additionally requires an organizer-approved `source_revision` identifying the baseline commit in the serialized context. The original source-revision requirement does not establish an existing payload field or its meaning; the integration owner must confirm this proposed field and mapping, route and synthetic classification during binding. If the existing bridge cannot supply them, stop and report the blocker. Do not treat the illustrative Feature payload above as proof that the Bug or Security route supplies them.
+
 The native **GitHub Copilot for Jira** integration can also respond to Jira automation actions. It is an alternative for starting cloud-agent work, but its documented action does not establish routing into a particular saved Automation Group. Do not present that alternative as equivalent without rehearsal of the exact target behavior.
 
 Source: [Copilot cloud agent with Jira](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/copilot-integrations/integrate-cloud-agent-with-jira).
@@ -391,8 +393,8 @@ Budget planning starts with roughly **40 base cloud runs**: ten standalone readi
 | Problem | App-first response | What not to claim |
 |---|---|---|
 | Setup still broken at minute 20 | Pair with a prepared driver station; coach handles setup separately | An untested laptop is ready |
-| Group not ready at minute 45 | Feature: record the blocker. Bug/Security: use the exact precreated paused rescue group after review/approval and update the bridge mapping | The team authored the rescue configuration |
-| Jira event never arrives | Inspect the App-readable audit; after five minutes use an approved manual run with the same sanitized context | Manual dispatch proves automatic routing |
+| Group not ready at minute 45 | Record the blocker; do not adopt a precreated group | Configuration or end-to-end routing was verified |
+| Jira event never arrives | Inspect the App-readable audit; after five minutes, reconcile dispatch and pending work before an approved manual run with the same sanitized context | Manual dispatch proves automatic routing |
 | Run accepted but no task visible yet | Inspect status/bridge correlation; reconcile before retry | HTTP 202 means the work completed |
 | Agent stuck or checks exceed the timebox | Reduce to the original smallest task, use the rescue baseline/evidence pack | Inherited results are freshly executed results |
 | Cloud Jira MCP unavailable | Continue from the sanitized entry payload; participant writes back through the App | The cloud has Jira access |
